@@ -1,0 +1,28 @@
+syntax="proto3";
+
+import "common/common.proto";
+package otp;
+option go_package="github.com/Zzocker/bl-proto-go/otp";
+
+service OTPServices{
+    rpc GetOTP(GetOTPRequest) returns (GetOTPResponse);
+    rpc VerifyOTP (VerifyOTPRequest) returns (VerifyOTPResponse);
+}
+
+message GetOTPRequest{
+    string EmailID=1;
+}
+
+message VerifyOTPRequest{
+    string EmailID=1;
+    int32 OTP=2;
+}
+
+message GetOTPResponse{
+    common.Header Header=1;
+    int32 OTP=2;
+}
+
+message VerifyOTPResponse{
+    common.Header Header=1;
+}
