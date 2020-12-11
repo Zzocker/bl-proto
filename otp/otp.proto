@@ -5,8 +5,8 @@ package otp;
 option go_package="github.com/Zzocker/bl-proto-go/otp";
 
 service OTPServices{
-    rpc GetOTP(GetOTPRequest) returns (GetOTPResponse);
-    rpc VerifyOTP (VerifyOTPRequest) returns (VerifyOTPResponse);
+    rpc SendOTP(GetOTPRequest) returns (GetOTPResponse);
+    rpc VerifyOTP(VerifyOTPRequest) returns (VerifyOTPResponse);
 }
 
 message GetOTPRequest{
