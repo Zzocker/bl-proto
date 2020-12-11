@@ -15,7 +15,7 @@ message GetOTPRequest{
 
 message VerifyOTPRequest{
     string EmailID=1;
-    int32 OTP=2;
+    string OTP=2;
 }
 
 message GetOTPResponse{
