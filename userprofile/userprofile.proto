@@ -1,0 +1,97 @@
+syntax="proto3";
+
+package userprofile;
+import "common/common.proto";
+option go_package="github.com/Zzocker/bl-proto-go/userprofile";
+
+service UserProfile{
+    // Register : will register user to the system
+    // input user object and password in metadata with key "SECRET"
+    // output RegisterResponse
+    rpc Register(User)returns(RegisterResponse);
+
+    // CheckCred : will check cred of a user
+    // input : CheckCredRequest and password in metadata with key "SECRET"
+    // output CheckCredResponse
+    rpc CheckCred(CheckCredRequest)returns(CheckCredResponse);
+
+    // GetUser : return user with given Username
+    // input : GetUserRequest and JWT in metadata with key "JWT" {TODO: will be done after oauth service}
+    // output : GetUserResponse
+    rpc GetUser(GetUserRequest)returns(GetUserResponse);
+}
+
+message RegisterResponse{
+    common.Header Header=1;
+}
+message CheckCredRequest{
+    string Username=1;
+}
+message CheckCredResponse{
+    common.Header Header=1;
+    bool Ok=2;// False = wrong and True correct cred
+}
+
+message GetUserRequest{
+    string Username=1;
+}
+
+message GetUserResponse{
+    common.Header Header=1;
+    User User=2;
+}
+
+
+message User{
+    string Username=1;
+    string Email=2;
+    GenderType Gender =3;
+    DateType DOB=4;
+    Contact Contact=5;
+    Addresses Addresses=6;
+    Photos Photos=7;
+}
+
+enum GenderType{
+    UNKNOWN=0;
+    FEMALE=1;
+    MALE=2;
+}
+
+message DateType{
+    int32 Date=1;
+    int32 Month=2;
+    int32 Year=3;
+}
+
+message Contact{
+    string Phone=1;
+    string Linkedin=2;
+    string Twitter=3;
+    string Instagram=4;
+    string Facebook=5;
+}
+
+message Addresses {
+    Address Current = 1;
+    Address Permanent = 2;
+}
+
+message Address {
+    string Line=2;
+    string City=3;
+    string District=4;
+    string State=5;
+    int32 PostalCode=6;
+}
+
+
+message Photos {
+    Attachment Profile = 1;
+    Attachment Cover = 2;
+}
+message Attachment {
+    bytes Data =1;
+    string URL = 2;
+    string Title =3;
+}
