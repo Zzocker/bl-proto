@@ -26,6 +26,7 @@ message RegisterRequest{
     string Email=2;
     string Phone=3;
     GenderType Gender=4;
+    string Name=5;
 }
 message RegisterResponse{
     common.Header Header=1;
@@ -57,6 +58,7 @@ message User{
     Addresses Addresses=6;
     Photos Photos=7;
     StatusType Status=8;
+    string Name=9;
 }
 
 enum GenderType{
