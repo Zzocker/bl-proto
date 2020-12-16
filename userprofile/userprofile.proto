@@ -6,9 +6,9 @@ option go_package="github.com/Zzocker/bl-proto-go/userprofile";
 
 service UserProfile{
     // Register : will register user to the system
-    // input user object and password in metadata with key "SECRET"
-    // output RegisterResponse
-    rpc Register(User)returns(RegisterResponse);
+    // input : RegisterRequest object and password in metadata with key "SECRET"
+    // output : RegisterResponse
+    rpc Register(RegisterRequest)returns(RegisterResponse);
 
     // CheckCred : will check cred of a user
     // input : CheckCredRequest and password in metadata with key "SECRET"
@@ -21,6 +21,12 @@ service UserProfile{
     rpc GetUser(GetUserRequest)returns(GetUserResponse);
 }
 
+message RegisterRequest{
+    string Username=1;
+    string Email=2;
+    string Phone=3;
+    GenderType Gender=4;
+}
 message RegisterResponse{
     common.Header Header=1;
 }
@@ -50,6 +56,7 @@ message User{
     Contact Contact=5;
     Addresses Addresses=6;
     Photos Photos=7;
+    StatusType Status=8;
 }
 
 enum GenderType{
@@ -94,4 +101,9 @@ message Attachment {
     bytes Data =1;
     string URL = 2;
     string Title =3;
+}
+
+enum StatusType{
+    NOT_VERIFIED=0;
+    VERIFIED=1;
 }
