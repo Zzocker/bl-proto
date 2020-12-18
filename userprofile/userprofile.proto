@@ -2,6 +2,7 @@ syntax="proto3";
 
 package userprofile;
 import "common/common.proto";
+import "google/protobuf/wrappers.proto";
 option go_package="github.com/Zzocker/bl-proto-go/userprofile";
 
 service UserProfile{
@@ -19,6 +20,37 @@ service UserProfile{
     // input : GetUserRequest and JWT in metadata with key "JWT" {TODO: will be done after oauth service}
     // output : GetUserResponse
     rpc GetUser(GetUserRequest)returns(GetUserResponse);
+
+    // GetContacts : returns only contacts of a user
+    // input : Username
+    // output : GetContactsResponse
+    rpc GetContacts(google.protobuf.StringValue)returns (GetContactsResponse);
+
+    // GetAddresses : returns only Addresses of a user
+    // input : Username
+    // output : GetAddressesResponse
+    rpc GetAddresses(google.protobuf.StringValue)returns(GetAddressesResponse);
+
+    // GetPhotos : returns only Photos of a user
+    // input : Username
+    // output : GetPhotosResponse
+    rpc GetPhotos(google.protobuf.StringValue)returns(GetPhotosResponse);
+
+
+    // UpdateContacts : returns only contacts of a user
+    // input : UpdateContactsRequest
+    // output : UpdateContactsResponse
+    rpc UpdateContacts(google.protobuf.StringValue)returns (GetContactsResponse);
+
+    // UpdateAddresses : returns only Addresses of a user
+    // input : Addresses
+    // output : UpdateAddressesResponse
+    rpc UpdateAddresses(Addresses)returns(GetAddressesResponse);
+
+    // UpdatePhotos : returns only Photos of a user
+    // input : Photos
+    // output : UpdatePhotosResponse
+    rpc UpdatePhotos(Photos)returns(GetPhotosResponse);
 }
 
 message RegisterRequest{
@@ -48,7 +80,30 @@ message GetUserResponse{
     User User=2;
 }
 
+message GetContactsResponse{
+    common.Header Header=1;
+    Contact Contact=2;
+    string Phone=3;
+    string Email=4;
+}
 
+message GetAddressesResponse{
+    common.Header Header=1;
+    Addresses Addresses=2;
+}
+
+message GetPhotosResponse{
+    common.Header Header=1;
+    Photos Photos=2;
+}
+
+
+message UpdateContactsRequest{
+    Contact Contact=1;
+    string Phone=2;
+    string Email=3;
+}
+/////////////////////////////////////////////////////////////////////////////////
 message User{
     string Username=1;
     string Email=2;
