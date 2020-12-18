@@ -52,13 +52,14 @@ message GetUserResponse{
 message User{
     string Username=1;
     string Email=2;
-    GenderType Gender =3;
-    DateType DOB=4;
-    Contact Contact=5;
-    Addresses Addresses=6;
-    Photos Photos=7;
-    StatusType Status=8;
-    string Name=9;
+    string Name=3;
+    GenderType Gender =4;
+    DateType DOB=5;
+    string Phone=6;
+    Contact Contact=7;
+    Addresses Addresses=8;
+    Photos Photos=9;
+    StatusType Status=10;
 }
 
 enum GenderType{
@@ -74,11 +75,10 @@ message DateType{
 }
 
 message Contact{
-    string Phone=1;
-    string Linkedin=2;
-    string Twitter=3;
-    string Instagram=4;
-    string Facebook=5;
+    string Linkedin=1;
+    string Twitter=2;
+    string Instagram=3;
+    string Facebook=4;
 }
 
 message Addresses {
