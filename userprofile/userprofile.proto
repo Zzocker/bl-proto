@@ -91,7 +91,7 @@ message Address {
     string City=3;
     string District=4;
     string State=5;
-    int32 PostalCode=6;
+    string PostalCode=6;
 }
 
 
