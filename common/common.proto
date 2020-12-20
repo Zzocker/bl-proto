@@ -3,6 +3,12 @@ syntax="proto3";
 package common;
 option go_package="github.com/Zzocker/bl-proto-go/common";
 
+message EmptyRequest{
+}
+
+message EmptyResponse{
+	Header Header=1;
+}
 message Header{
     StatusCode Status=1;
     string Description=2;
@@ -10,15 +16,15 @@ message Header{
 
 enum StatusCode{
 	EMPTY=0;
-    	// OK Return on Success
+    // OK Return on Success
 	OK=1;
-	// CANCELLED The operation was cancelled, typically by the caller.
 
+	// CANCELLED The operation was cancelled, typically by the caller.
 	CANCELLED=2;
+
 	// UNKNOWN For example, this error may be returned when a Status value received from another address space
 	// belongs to an error-space that isn't known in this address space. Also errors raised by APIs that don't
 	// return enough error information may be converted to this error.
-
 	UNKNOWN=3;
 	// INVALID_ARGUMENT the client specified an invalid argument.
 

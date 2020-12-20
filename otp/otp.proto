@@ -5,12 +5,20 @@ package otp;
 option go_package="github.com/Zzocker/bl-proto-go/otp";
 
 service OTPServices{
-    rpc SendOTP(GetOTPRequest) returns (GetOTPResponse);
+
+    // RequestOTP : will request server to send otp to their email id
+    rpc RequestOTP(RequestOTPPRequest) returns (RequestOTPPResponse);
+
+    //  VerifyOTP : will verify otp with the server
     rpc VerifyOTP(VerifyOTPRequest) returns (VerifyOTPResponse);
 }
 
-message GetOTPRequest{
+message RequestOTPPRequest{
     string EmailID=1;
+}
+
+message RequestOTPPResponse{
+    common.Header Header=1;
 }
 
 message VerifyOTPRequest{
@@ -18,9 +26,6 @@ message VerifyOTPRequest{
     string OTP=2;
 }
 
-message GetOTPResponse{
-    common.Header Header=1;
-}
 
 message VerifyOTPResponse{
     common.Header Header=1;
