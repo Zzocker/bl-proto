@@ -2,7 +2,7 @@ syntax="proto3";
 
 package userprofile;
 import "common/common.proto";
-import "google/protobuf/wrappers.proto";
+
 option go_package="github.com/Zzocker/bl-proto-go/userprofile";
 
 service UserProfile{
@@ -33,12 +33,6 @@ service UserProfile{
     // output : GetAddressesResponse
     rpc GetAddresses(common.EmptyRequest)returns(GetAddressesResponse);
 
-    // GetPhotos : returns only Photos of a user
-    // input : will get username from the passed JWT
-    // output : GetPhotosResponse
-    rpc GetPhotos(common.EmptyRequest)returns(GetPhotosResponse);
-
-
     // UpdateContacts : updates any fileds from contacts
     // input : Addresses
     // output : UpdateContactsResponse
@@ -48,11 +42,6 @@ service UserProfile{
     // input : Addresses
     // output : UpdateAddressesResponse
     rpc UpdateAddresses(Addresses)returns(GetUserResponse);
-
-    // UpdatePhotos : updates any fileds from Photos
-    // input : Photos
-    // output : UpdatePhotosResponse
-    rpc UpdatePhotos(Photos)returns(GetUserResponse);
 
     // UpdateUsername : update username of a user
     // input : new username and will get current username from JWT
@@ -65,6 +54,9 @@ service UserProfile{
     // DeleteUser : Delete user from system
     // input : will get username from JWT
     rpc DeleteUser(common.EmptyRequest)returns(common.EmptyResponse);
+
+    // UpdateRating : Private
+    rpc UpdateRating (UpdateRatingRequest) returns (common.EmptyResponse);
 }
 
 
@@ -115,6 +107,16 @@ message UpdatePasswordRequest{
     string NewPassword=1;
 }
 
+message UpdateRatingRequest{
+    enum RatingType {
+        UNKNOWN=0;
+        AS_SELLER=1;
+        AS_BORROWER=2;
+    }
+    RatingType Type=1;
+    int32 UpdateBy=2;
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 message User{
     string Username=1;
@@ -125,6 +127,7 @@ message User{
     Contact Contact=6;
     Addresses Addresses=7;
     Photos Photos=8;
+    Rating Rating=9;
 }
 
 enum GenderType{
@@ -175,4 +178,11 @@ message Attachment {
 enum StatusType{
     NOT_VERIFIED=0;
     VERIFIED=1;
+}
+
+message Rating{
+    float AsSeller=1;
+    uint64 TotalVoteAsSeller=2;
+    float AsBorrower=3;
+    uint64 TotalVoteAsBorrower=4;
 }

@@ -3,6 +3,13 @@ syntax="proto3";
 package common;
 option go_package="github.com/Zzocker/bl-proto-go/common";
 
+message Attachment {
+    string ID = 1;
+	string Title =2;
+    bytes Data =3;
+}
+
+
 message EmptyRequest{
 }
 

@@ -1,0 +1,42 @@
+syntax="proto3";
+package oauth;
+import "common/common.proto";
+option go_package="github.com/Zzocker/bl-proto-go/oauth";
+
+service OAuth{
+
+    // GetToken : return refresh token which can be use to generate short term JWT
+    //  input : GetTokenRequest + password in metadata with key as "SECRET"
+    rpc GetToken (GetTokenRequest) returns (GetTokenResponse);
+
+    // ExtendToken : extend the expiration time of a token
+    // input : token in metadata
+    rpc ExtendToken (common.EmptyRequest) returns (common.EmptyResponse);
+
+    // RemoveToken : will remove a token
+    // input : Token in metadata with key as "TOKEN"
+    rpc RemoveToken(common.EmptyRequest) returns (common.EmptyResponse);
+
+    // RemoveAllToken : will remove all the tokes of a user
+    // when to use eg; when user log out 
+    // input : RemoveAllTokenRequest with JWT token in metadata
+    rpc RemoveAllToken(RemoveAllTokenRequest) returns (common.EmptyResponse);
+
+    // GetJWT : generate JWT using a refresh token
+    // input : TokenID in metadata
+    // output : JWT in metadata with key JWT
+    rpc GetJWT (common.EmptyRequest) returns (common.EmptyResponse);
+}
+
+message GetTokenRequest{
+    string Username=1;
+}
+
+message GetTokenResponse{
+    common.Header Header=1;
+    string TokenID=2;
+}
+
+message RemoveAllTokenRequest{
+    string Username=1;
+}

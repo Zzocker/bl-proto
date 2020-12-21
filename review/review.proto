@@ -1,0 +1,51 @@
+syntax="proto3";
+package review;
+
+import "common/common.proto";
+option go_package="github.com/Zzocker/bl-proto-go/review";
+
+service ReviewService{
+    rpc Create (Review) returns (common.EmptyResponse);
+    rpc Update (UpdateRequest) returns (common.EmptyResponse);
+    rpc Get (ReviewIDRequest) returns (GetResponse);
+    rpc GetReviewOn(GetReviewOnRequest)returns (stream Review);
+    rpc Delete (ReviewIDRequest) returns (common.EmptyResponse);
+}
+message UpdateRequest{
+    string ID=1;
+    string UpdatedReview=2;
+    string UpdatedRating=3;
+}
+
+message ReviewIDRequest{
+    string ID=1;
+}
+message GetResponse{
+    common.Header Header=1;
+    Review Review=2;
+}
+
+message GetReviewOnRequest{
+    // ID : ID on which you want to get review
+    string ID=1;
+    // Which type of review
+    ReviewType Type =2;
+}
+// #############################################################################
+message Review{
+    // ID: of review
+    string ID=1;
+    string For=2;
+    string By=3;
+    ReviewType Type =4;
+    string Value=5;
+    float Rating=6;
+    uint64 Time=7;
+}
+
+enum ReviewType{
+    UNKNOWN=0;
+    BOOK=1;
+    USER_AS_SELLER=2;
+    USER_AS_BORROWER=3;
+}

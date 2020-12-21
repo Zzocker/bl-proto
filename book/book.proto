@@ -1,0 +1,131 @@
+syntax="proto3";
+package book;
+import "common/common.proto";
+option go_package="github.com/Zzocker/bl-proto-go/book";
+
+service BookService{
+    
+    // AddBook : will add book 
+    // input : AddBookRequest + JWT in metadata 
+    rpc AddBook (AddBookRequest) returns (AddBookResponse);
+
+    rpc GetBook (BookIDRequest) returns (GetBookRequest);
+
+    // UpdateDescription : will update Description of the book
+    // input : 
+    rpc UpdateDescription(UpdateDescriptionRequest)returns(common.EmptyResponse);
+
+    // GiveReview : (Private)for giveing review to a book
+    rpc GiveReview(GiveReviewRequest)returns (common.EmptyResponse);
+
+    // DeleteBook : delete book
+    rpc DeleteBook(BookIDRequest)returns (common.EmptyResponse);
+
+    // UpdateRating : will update rating
+    rpc UpdateRating (UpdateRatingRequest) returns (common.EmptyResponse);
+
+    // IncrementTime : Increment number of time book is being sold or landed
+    // (Private) microservice comm
+    rpc IncrementTime(IncrementTimeRequest)returns(common.EmptyResponse);
+
+    // UpdateOwnership : ( Private )
+    rpc UpdateOwnership(UpdateOwnershipRequest)returns (common.EmptyResponse);
+
+    // DeleteAllBookOfAuser : (private) delete all book realted to a user
+    rpc DeleteAllBookOfAuser(common.EmptyRequest)returns(common.EmptyResponse);
+}
+
+message AddBookRequest{
+    string ISBN=1;
+    Description BookDescription=2;
+    common.Attachment Photo=3;
+}
+
+message AddBookResponse{
+    common.Header Header=1;
+    string ID=2;
+}
+
+message UpdateDescriptionRequest{
+    string ID=1;
+    Description Description=2;
+}
+
+
+message IncrementTimeRequest{
+    // ID : book id
+    string ID=1;
+
+    // Type of Increment to make
+    enum Type{
+        INVALID=0;
+        SOLD=1;
+        LANDED=2;
+    } 
+    Type TypeOfIncrement=2;
+}
+
+message UpdateRatingRequest{
+    string ID=1;
+    float Rating=2;
+}
+
+message UpdateOwnershipRequest{
+    string ID=1;
+    enum OwnershipType{
+        INVALID=0;
+        CURRENT=1;
+        PERMANENT=2;
+    }
+    OwnershipType Type=2;
+    string Value=3;
+}
+
+// BookIDRequest request with only BookID filed
+message BookIDRequest{
+    string ID=1;
+}
+
+message GetBookRequest{
+    common.Header HEader=1;
+    Book Book=2;
+}
+
+message GiveReviewRequest{
+    string ID=1;
+    string Review=2;
+}
+// #########################################################################################
+message Book{
+    string ID=1;
+    string ISBN=2;
+    // Array of photos
+    Ownership Owners=3;
+    string Description=4;
+    Statistics Statistics=5;
+    common.Attachment Photo=6;
+}
+
+message Statistics{
+    // TimeSold : Number of time this book is sold
+    int32 TimeSold=1;
+    // TimeLended : number of time this book is lended
+    int32 TimeLended=2;
+    // Rating : rating of the book
+    float Rating=3;
+    // RatingGivenBy : how many user has give the rating
+    int32 RatingGivenBy=4;
+    int32 RatingCount=5;
+}
+
+message Description{
+    string About=1;
+    repeated string Genre=2;
+    string Title=3;
+    string Author=4;
+} 
+
+message Ownership{
+    string Current=1;
+    string Permanent=2;
+}

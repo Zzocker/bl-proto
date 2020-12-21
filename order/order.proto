@@ -1,0 +1,57 @@
+syntax="proto3";
+package order;
+
+import "common/common.proto";
+option go_package="github.com/Zzocker/bl-proto-go/order";
+
+service OrderService{
+
+    // Create : create a new Order
+    // (private ) will be called once users Agreed Upon the terms
+    rpc Create (Order) returns (common.EmptyResponse);
+
+    rpc UpdatePrice (UpdatePriceRequest) returns (common.EmptyResponse);
+
+    rpc GetAllMyOrder (common.EmptyRequest) returns (stream Order);
+
+    rpc GetAllOrderOfAProduct (GetAllOrderOfAProductRequest) returns (stream Order);
+
+    rpc UpdateStatus (UpdateStatusRequest) returns (common.EmptyResponse);
+
+}
+
+message UpdatePriceRequest{
+    string OrderID=1;
+    float NewPrice=2;
+}
+
+message GetAllOrderOfAProductRequest{
+    string ProductID=1;
+}
+
+message UpdateStatusRequest{
+    string OrderID=1;
+    Status NewStatus=2;
+}
+// ############################################################################################################
+message Order{
+    string OrderID=1;
+    string ProductID=2;
+    Type ProductType=3;
+    string FromID=4;
+    string ToID=5;
+    float Price=6;
+    Status Status=7;
+    int64 LastUpdate=8;
+}
+
+enum Type {
+    UNKNOWN=0;
+    BUY_BOOK=1;
+    BORROW_BOOK=2;
+}
+enum Status {
+    PENDING=0;
+    PAYED=1;
+    CANCELLED=2;
+}
